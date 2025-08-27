@@ -11,18 +11,21 @@ class CreditCard {
   }
 }
 
-// Código do cliente
-function main() {
-  const type = "credit card";
-
-  let expenses;
-  if (type === "debit card") {
-    expenses = new DebitCard();
-  } else if (type === "credit card") {
-    expenses = new CreditCard();
+class PaymentFactory {
+  static createPayment(type) {
+    if (type === "debit card") {
+      return new DebitCard();
+    } else if (type === "credit card") {
+      return new CreditCard();
+    }
+    throw new Error("Tipo de pagamento inválido");
   }
-
-  expenses.pay(`${type}`, "R$ 500,00");
 }
 
-main();
+function main() {
+  const type = "credit card"; // Pode ser 'debit card' ou 'credit card'
+
+  const expenses = PaymentFactory.createPayment(type);
+
+  expenses.pay(type, "R$ 500,00");
+}
