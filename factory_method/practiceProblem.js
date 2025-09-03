@@ -1,124 +1,28 @@
-// Produto
-class Car {
-  constructor() {
-    this.brand = null;
-    this.model = null;
-    this.year = null;
-    this.engine = null;
-    this.color = null;
-    this.gps = false;
-  }
-
-  showDetails() {
-    console.log(`
-    ${this.year} ${this.brand} ${this.model}
-    Motor: ${this.engine}
-    Cor: ${this.color}
-    GPS: ${this.gps ? "Sim" : "Não"}
-    `);
+// Classes concretas
+class DebitCard {
+  pay(type, amount) {
+    console.log(`Pagando com ${type} no valor de R$ ${amount}`);
   }
 }
 
-// Builder
-class CarBuilder {
-  constructor() {
-    this.car = new Car();
-  }
-
-  setBrand(brand) {
-    this.car.brand = brand;
-    return this;
-  }
-
-  setModel(model) {
-    this.car.model = model;
-    return this;
-  }
-
-  setYear(year) {
-    this.car.year = year;
-    return this;
-  }
-
-  setEngine(engine) {
-    this.car.engine = engine;
-    return this;
-  }
-
-  setColor(color) {
-    this.car.color = color;
-    return this;
-  }
-
-  addGPS() {
-    this.car.gps = true;
-    return this;
-  }
-
-  build() {
-    return this.car;
+class CreditCard {
+  pay(type, amount) {
+    console.log(`Pagando com ${type} no valor de R$ ${amount}`);
   }
 }
 
-// Director → Cria modelos pré-definidos
-class CarDirector {
-  static buildCarroLuxo() {
-    return new CarBuilder()
-      .setBrand("BMW")
-      .setModel("X5")
-      .setYear(2025)
-      .setEngine("3.0 V6")
-      .setColor("Preto")
-      .addGPS()
-      .build();
+// Código do cliente
+function main() {
+  const type = "credit card";
+
+  let expenses;
+  if (type === "debit card") {
+    expenses = new DebitCard();
+  } else if (type === "credit card") {
+    expenses = new CreditCard();
   }
 
-  static buildCarroEconomico() {
-    return new CarBuilder()
-      .setBrand("Fiat")
-      .setModel("Mobi")
-      .setYear(2023)
-      .setEngine("1.0")
-      .setColor("Branco")
-      .build();
-  }
-
-  static buildCarroEletrico() {
-    return new CarBuilder()
-      .setBrand("Tesla")
-      .setModel("Model 3")
-      .setYear(2024)
-      .setEngine("Elétrico")
-      .setColor("Azul")
-      .addGPS()
-      .build();
-  }
+  expenses.pay(`${type}`, "R$ 500,00");
 }
 
-// Uso
-const car1 = new CarBuilder()
-  .setBrand("Toyota")
-  .setModel("Corolla")
-  .setYear(2024)
-  .setEngine("2.0")
-  .setColor("Preto")
-  .addGPS()
-  .build();
-
-const car2 = new CarBuilder()
-  .setBrand("Honda")
-  .setModel("Civic")
-  .setYear(2023)
-  .setEngine("1.5 Turbo")
-  .setColor("Prata")
-  .build();
-
-const luxo = CarDirector.buildCarroLuxo();
-const simples = CarDirector.buildCarroEconomico();
-const eletrico = CarDirector.buildCarroEletrico();
-
-car1.showDetails();
-car2.showDetails();
-luxo.showDetails();
-simples.showDetails();
-eletrico.showDetails();
+main();
